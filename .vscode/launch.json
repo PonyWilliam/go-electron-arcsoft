@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "hi3861-Debug-jlink",
+            "cwd": "${workspaceRoot}",
+            "executable": "./output/bin/Hi3861_demo_allinone.elf",
+            "request": "launch",
+            "type": "deveco-debug",
+            "servertype": "jlink",
+            "device": "Risc-V",
+            "interface": "jtag",
+            "maxBreakpoints": "3",
+            "serverArgs": [
+                "-vd"
+            ],
+            "serverpath": "${config:deveco-debug.JLinkGDBServerPath}",
+            "armToolchainPath": "${config:deveco-debug.armToolchainPath}",
+            "toolchainPrefix": "riscv32-unknown-elf",
+            "showDevDebugOutput": "0",
+            "postLaunchCommands": [
+                "set remotetimeout unlimited",
+                "delete",
+                "b app_main",
+                "continue"
+            ]
+        }
+    ]
+}

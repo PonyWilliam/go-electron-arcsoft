@@ -1,0 +1,80 @@
+{
+    "configList": [
+        {
+            "base": {
+                "des": "risc-v开发板",
+                "board": "hi3861",
+                "kernel": "risc-v",
+                "osversion": "1.0.0",
+                "frequency": "* Hz",
+                "flash": "* KB",
+                "ram": "* KB",
+                "rom": "* KB",
+                "ramAddr": "0x400000"
+            },
+            "build": {
+                "script": "riscv-build",
+                "support": [
+                    "riscv-build"
+                ],
+                "riscv-build": {
+                    "command": {
+                        "build": "scons",
+                        "clean": "scons -c"
+                    }
+                }
+            },
+            "upload": {
+                "script": "hiburn-jlink-upload",
+                "support": [
+                    "hiburn-jlink-upload"
+                ],
+                "hiburn-jlink-upload": {
+                    "serial": {
+                        "baudRate": "921600",
+                        "databits": "8"
+                    },
+                    "JLink": {
+                        "device": "Risc-V",
+                        "interface": "jtag",
+                        "speed": "2000",
+                        "autoconnect": "1"
+                    }
+                },
+                "partitions": [
+                    {
+                        "destAddr": "0x100000",
+                        "path": "output\\bin\\Hi3861_demo_allinone.bin",
+                        "size": "0x300000",
+                        "used": true
+                    }
+                ]
+            },
+            "debug": {
+                "script": "jlink-debug",
+                "support": [
+                    "jlink-debug"
+                ],
+                "jlink-debug": {
+                    "launchAttach": {
+                        "executable": "./output/bin/Hi3861_demo_allinone.elf",
+                        "device": "Risc-V",
+                        "interface": "jtag",
+                        "serverArgs": [
+                            "-vd"
+                        ],
+                        "toolchainPrefix": "riscv32-unknown-elf",
+                        "postAttachCommandsSetSubPath": [],
+                        "postLaunchCommands": [
+                            "set remotetimeout unlimited",
+                            "delete",
+                            "b app_main",
+                            "continue"
+                        ],
+                        "maxBreakpoints": "3"
+                    }
+                }
+            }
+        }
+    ]
+}
